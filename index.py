@@ -1,23 +1,29 @@
 from flask import Flask
+from flask import jsonify
 from bs4 import BeautifulSoup
 import urllib
 import json
 app = Flask(__name__)
 
-@app.route('/api/<cricketer>',methods=['GET'])
+@app.route('/api/')
+@app.route('/api/<cricketer>')
 def api(cricketer=None):
-    res = {}
     if cricketer == None:
+        res = {}
         res['error'] = True
         res['message'] = 'Please provide a cricketer name as GET parameter'
-        res = json.dumps(res)
+        return jsonify(res)
     else:
-        cricketer = cricketer.replace (" ", "_")
-        url = 'https://en.wikipedia.org/wiki/'+str(cricketer)
-        html = urllib.urlopen(url).read()
-        soup = BeautifulSoup(html)
-        soup = soup.find("table", {"class": "infobox vcard"})
-    return res
+        res = {}
+        try:
+            cricketer = cricketer.replace (" ", "_")
+            url = 'https://en.wikipedia.org/wiki/'+str(cricketer)
+            html = urllib.urlopen(url).read()
+            soup = BeautifulSoup(html)
+            soup = soup.find("table", {"class": "infobox vcard"})
+        except:
+            return flask.response()
+        return jsonify(res)
 
 @app.route('/')
 @app.route('/index')
