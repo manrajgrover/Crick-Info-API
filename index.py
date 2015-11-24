@@ -26,7 +26,7 @@ def api(cricketer=None):
         return jsonify(res)
     else:
         res = {}
-        cricketer = cricketer.replace (" ", "_")
+        cricketer = cricketer.replace (' ', '_')
         url = 'https://en.wikipedia.org/wiki/'+str(cricketer)
         html = urllib.urlopen(url).read()
         soup = BeautifulSoup(html)
@@ -36,7 +36,7 @@ def api(cricketer=None):
             if len(children) == 1:
                 if children[0].name == 'th':
                     current = unicodedata.normalize('NFKD',children[0].text).encode('ascii','ignore')
-                    current = current.lower().replace(" ","_")
+                    current = current.lower().replace(' ','_').strip()
                     res[current] = {}
                 elif children[0].name == 'td' and children[0].table:
                     print "Get table here!"
@@ -44,8 +44,8 @@ def api(cricketer=None):
                 if current is not None:
                     value = unicodedata.normalize('NFKD',children[1].text).encode('ascii','ignore')
                     key = unicodedata.normalize('NFKD',children[0].text).encode('ascii','ignore')
-                    key = remove_brackets(key).lower().replace(" ","_").replace(".","")
-                    value = remove_brackets(value)
+                    key = remove_brackets(key).lower().replace('.','').strip().replace(' ','_')
+                    value = remove_brackets(value).replace('\n','').strip()
                     res[current][key] = value
         print res
         return jsonify(res)
