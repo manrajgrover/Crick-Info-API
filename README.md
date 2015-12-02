@@ -1,7 +1,14 @@
 # Cricket-Player-Info-API
 A service for Cricket Player's information
 
+![Demo Screenshot](https://github.com/ManrajGrover/Crick-Info-API/blob/master/assets/Screenshot.png)
+
 # API Documentation
+
+Currently there is only one end point. There are plans to add more specific endpoints. ( See [this](https://github.com/ManrajGrover/Crick-Info-API/issues/2) )
+
+`/api/<cricketer>`
+Get career statistics, domestic team information, international information and personal information of the cricketer.
 
 # License
 
